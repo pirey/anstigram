@@ -81,7 +81,7 @@ function MainPage() {
         onChangeFilterType={handleChangeFilterType}
         onSearch={handleSearch}
       />
-      <main className="container-fluid">
+      <main className="container-xl">
         {loading ? (
           <Loading />
         ) : (

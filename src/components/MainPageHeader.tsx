@@ -11,7 +11,7 @@ interface Props {
 function MainPageHeader(props: Props) {
   const { search, filterType, onChangeFilterType, onSearch } = props
   return (
-    <header className="container-fluid my-3">
+    <header className="container-xl my-3">
       <div className="row align-items-center">
         <div className="col-sm-12 col-md-4 col-lg-3 mb-3 mb-md-0 d-flex justify-content-center">
           <button
