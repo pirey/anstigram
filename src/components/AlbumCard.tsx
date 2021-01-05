@@ -19,13 +19,23 @@ function AlbumCard(props: Props) {
       />
       <div className="card-body bg-light">
         <h5 className="card-title text-truncate mb-1">
-          <Link className="text-danger text-capitalize text-decoration-none" to={`/album/${albumId}`}>{title}</Link>
+          <Link
+            className="text-danger text-capitalize text-decoration-none"
+            to={`/album/${albumId}`}
+          >
+            {title}
+          </Link>
         </h5>
         <div>
           <span className="text-muted mr-2">By</span>
           <span className="font-italic">
             {userId ? (
-              <Link className="text-danger text-decoration-none" to={`/users/${userId}`}>{username}</Link>
+              <Link
+                className="text-danger text-decoration-none"
+                to={`/users/${userId}`}
+              >
+                {username}
+              </Link>
             ) : (
               username
             )}

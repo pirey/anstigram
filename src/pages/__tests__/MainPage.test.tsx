@@ -44,7 +44,7 @@ describe('MainPage', () => {
     await waitForElementToBeRemoved(() => screen.queryByText(/loading.../i))
 
     const filterByAlbumTitle = screen.getByRole('button', {
-      name: /by album/i
+      name: /by title/i
     })
     const filterByUserName = screen.getByRole('button', {
       name: /by user/i
@@ -56,14 +56,16 @@ describe('MainPage', () => {
     expect(searchInput).toBeInTheDocument()
   })
 
-  test('derive filter by album from query string', async () => {
+  test('derive filter by album title from query string', async () => {
     render(
       <MemoryRouter initialEntries={[`/?filter_by=album`]}>
         <MainPage />
       </MemoryRouter>
     )
 
-    const searchInput = await screen.findByPlaceholderText(/search/i)
+    await waitForElementToBeRemoved(() => screen.queryByText(/loading.../i))
+
+    const searchInput = screen.getByPlaceholderText(/search/i)
 
     userEvent.type(searchInput, 'album')
     expect(screen.getAllByRole('listitem')).toHaveLength(2)
@@ -85,7 +87,9 @@ describe('MainPage', () => {
       </MemoryRouter>
     )
 
-    const searchInput = await screen.findByPlaceholderText(/search/i)
+    await waitForElementToBeRemoved(() => screen.queryByText(/loading.../i))
+
+    const searchInput = screen.getByPlaceholderText(/search/i)
 
     userEvent.type(searchInput, 'leanne')
     expect(screen.getAllByRole('listitem')).toHaveLength(2)
@@ -120,7 +124,7 @@ describe('MainPage', () => {
     await waitForElementToBeRemoved(() => screen.queryByText(/loading.../i))
 
     const filterByAlbumTitle = screen.getByRole('button', {
-      name: /by album/i
+      name: /by title/i
     })
     const filterByUserName = screen.getByRole('button', {
       name: /by user/i
