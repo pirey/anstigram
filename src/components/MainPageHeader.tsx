@@ -13,7 +13,7 @@ function MainPageHeader(props: Props) {
   return (
     <header className="container-fluid my-3">
       <div className="row align-items-center">
-        <div className="col-sm-6 col-md-4 col-lg-3 mb-3 mb-sm-0 d-flex justify-content-center">
+        <div className="col-sm-12 col-md-4 col-lg-3 mb-3 mb-md-0 d-flex justify-content-center">
           <button
             type="button"
             className={`mr-1 rounded-pill btn btn-lg ${
@@ -33,7 +33,8 @@ function MainPageHeader(props: Props) {
             By User
           </button>
         </div>
-        <div className="col-sm-6 col-md-5 col-lg-6">
+        <div className="d-none d-sm-block d-md-none col-sm-2"></div>
+        <div className="col-sm-8 col-md-5 col-lg-6">
           <input
             value={search}
             onChange={e => onSearch(e.target.value)}
@@ -42,6 +43,7 @@ function MainPageHeader(props: Props) {
             className="form-control form-control-lg rounded-pill bg-light"
           />
         </div>
+        <div className="d-none d-sm-block d-md-none col-sm-2"></div>
         <div className="col-sm-12 col-md-3 my-3 my-md-0 d-flex justify-content-center">
           <Link
             to="/favorites"
