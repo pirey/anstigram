@@ -1,5 +1,5 @@
 import { ChangeEvent, useEffect, useState } from 'react'
-import { useHistory, useLocation } from 'react-router-dom'
+import { Link, useHistory, useLocation } from 'react-router-dom'
 import { Album, User } from 'models'
 import AlbumCard from 'components/AlbumCard'
 
@@ -10,9 +10,9 @@ function fetchAlbums() {
     method: 'GET',
     headers: {
       Accept: 'application/json',
-      'Content-Type': 'application/json'
-    }
-  }).then(response => response.json())
+      'Content-Type': 'application/json',
+    },
+  }).then((response) => response.json())
 }
 
 function fetchUsers() {
@@ -20,13 +20,13 @@ function fetchUsers() {
     method: 'GET',
     headers: {
       Accept: 'application/json',
-      'Content-Type': 'application/json'
-    }
-  }).then(response => response.json())
+      'Content-Type': 'application/json',
+    },
+  }).then((response) => response.json())
 }
 
 function getAlbumUser(users: User[], album: Album): User | undefined {
-  return users.find(user => album.userId === user.id)
+  return users.find((user) => album.userId === user.id)
 }
 
 function filterTypeFromString(s: string): FilterType {
@@ -53,7 +53,7 @@ function MainPage() {
   const [filteredAlbums, setFilteredAlbums] = useState<Album[]>([])
 
   const filterAlbumByTitle = (albums: Album[], title: string): Album[] => {
-    const filteredAlbums = albums.filter(album => {
+    const filteredAlbums = albums.filter((album) => {
       return album.title.toLowerCase().indexOf(title) !== -1
     })
 
@@ -65,7 +65,7 @@ function MainPage() {
     users: User[],
     userName: string
   ): Album[] => {
-    const filteredAlbums = albums.filter(album => {
+    const filteredAlbums = albums.filter((album) => {
       const albumUser = getAlbumUser(users, album)
       if (!albumUser) {
         return false
@@ -144,41 +144,51 @@ function MainPage() {
   }
 
   return (
-    <div>
-      <div>
-        <div className="input-group mb-3">
-          <div className="input-group-prepend d-none d-sm-flex">
+    <>
+      <header className="container-fluid my-3">
+        <div className="row align-items-center">
+          <div className="col-sm-6 col-md-4 col-lg-3 mb-3 mb-sm-0 d-flex justify-content-center">
             <button
               type="button"
-              className={`rounded-0 btn ${
-                filterBy === 'album' ? 'btn-secondary' : 'btn-outline-secondary'
+              className={`mr-1 rounded-pill btn btn-lg ${
+                filterBy === 'album' ? 'btn-danger' : 'btn-outline-danger'
               }`}
               onClick={() => changeFilterType('album')}
             >
-              By album
+              By Album
             </button>
             <button
               type="button"
-              className={`btn ${
-                filterBy === 'user' ? 'btn-secondary' : 'btn-outline-secondary'
+              className={`ml-1 rounded-pill btn btn-lg ${
+                filterBy === 'user' ? 'btn-danger' : 'btn-outline-danger'
               }`}
               onClick={() => changeFilterType('user')}
             >
-              By user
+              By User
             </button>
           </div>
-          <input
-            value={search}
-            onChange={handleSearch}
-            placeholder="Search"
-            type="search"
-            className="form-control rounded-0"
-          />
+          <div className="col-sm-6 col-md-5 col-lg-6">
+            <input
+              value={search}
+              onChange={handleSearch}
+              placeholder="Search"
+              type="search"
+              className="form-control form-control-lg rounded-pill bg-light"
+            />
+          </div>
+          <div className="col-sm-12 col-md-3 my-3 my-md-0 d-flex justify-content-center">
+            <Link
+              to="/favorites"
+              className="text-lg text-danger text-decoration-none font-weight-bolder"
+            >
+              My Favorites
+            </Link>
+          </div>
         </div>
-      </div>
-      <div className="container-lg">
+      </header>
+      <main className="container-fluid">
         <div className="row" role="list">
-          {filteredAlbums.map(album => {
+          {filteredAlbums.map((album) => {
             const albumUser = getAlbumUser(users, album)
             return (
               <div
@@ -197,8 +207,8 @@ function MainPage() {
             )
           })}
         </div>
-      </div>
-    </div>
+      </main>
+    </>
   )
 }
 

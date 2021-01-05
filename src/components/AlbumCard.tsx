@@ -11,21 +11,21 @@ interface Props {
 function AlbumCard(props: Props) {
   const { albumId, userId, title, userName: username, className = '' } = props
   return (
-    <div className={`card ${className}`}>
+    <div className={`card shadow-sm rounded-lg ${className}`}>
       <img
         src={`https://picsum.photos/seed/${title}/200`}
         className="card-img-top"
         alt={title}
       />
-      <div className="card-body">
-        <h5 className="card-title text-truncate">
-          <Link to={`/album/${albumId}`}>{title}</Link>
+      <div className="card-body bg-light">
+        <h5 className="card-title text-truncate mb-1">
+          <Link className="text-danger text-capitalize text-decoration-none" to={`/album/${albumId}`}>{title}</Link>
         </h5>
         <div>
           <span className="text-muted mr-2">By</span>
           <span className="font-italic">
             {userId ? (
-              <Link to={`/users/${userId}`}>{username}</Link>
+              <Link className="text-danger text-decoration-none" to={`/users/${userId}`}>{username}</Link>
             ) : (
               username
             )}
