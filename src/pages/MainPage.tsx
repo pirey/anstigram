@@ -1,6 +1,7 @@
 import { ChangeEvent, useEffect, useState } from 'react'
 import { useHistory, useLocation } from 'react-router-dom'
 import { Album, User } from 'models'
+import AlbumCard from 'components/AlbumCard'
 
 type FilterType = 'album' | 'user'
 
@@ -175,16 +176,28 @@ function MainPage() {
           />
         </div>
       </div>
-      <ul>
-        {filteredAlbums.map(album => {
-          const albumUser = getAlbumUser(users, album)
-          return (
-            <li key={album.id}>
-              {album.title} - by {albumUser ? albumUser.name : 'unknown'}
-            </li>
-          )
-        })}
-      </ul>
+      <div className="container-lg">
+        <div className="row" role="list">
+          {filteredAlbums.map(album => {
+            const albumUser = getAlbumUser(users, album)
+            return (
+              <div
+                className="col-sm-6 col-md-4 col-lg-3 mb-3"
+                role="listitem"
+                key={album.id}
+              >
+                <AlbumCard
+                  albumId={album.id}
+                  title={album.title}
+                  userId={albumUser ? albumUser.id : null}
+                  userName={albumUser ? albumUser.name : 'Unknown'}
+                  className="h-100"
+                />
+              </div>
+            )
+          })}
+        </div>
+      </div>
     </div>
   )
 }
