@@ -78,7 +78,7 @@ function AlbumPage() {
             <h1 className="h3 mb-0 text-capitalize font-weight-bold">
               {album.title}
             </h1>
-            <div className="font-italic">
+            <small className="font-italic">
               <span className="text-muted mr-2">By</span>
               <Link
                 to={`/users/${user.id}`}
@@ -87,7 +87,7 @@ function AlbumPage() {
                 {user.name}
               </Link>
               <span className="text-lowercase text-muted">{user.email}</span>
-            </div>
+            </small>
           </div>
         </div>
       </header>

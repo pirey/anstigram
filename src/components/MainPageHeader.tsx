@@ -13,24 +13,25 @@ function MainPageHeader(props: Props) {
   return (
     <header className="container-xl my-3">
       <div className="row align-items-center">
-        <div className="col-sm-12 col-md-4 col-lg-3 mb-3 mb-md-0 d-flex justify-content-center">
+        <div className="col-sm-12 col-md-4 col-lg-3 mb-3 mb-md-0 d-flex justify-content-center align-items-center">
+          <span className="mr-2 text-muted">Filter by</span>
           <button
             type="button"
-            className={`mr-1 rounded-pill btn btn-lg ${
+            className={`mr-1 rounded-pill btn ${
               filterType === 'album' ? 'btn-danger' : 'btn-outline-danger'
             }`}
             onClick={() => onChangeFilterType('album')}
           >
-            By Title
+            <span className="sr-only">By</span> Title
           </button>
           <button
             type="button"
-            className={`ml-1 rounded-pill btn btn-lg ${
+            className={`ml-1 rounded-pill btn ${
               filterType === 'user' ? 'btn-danger' : 'btn-outline-danger'
             }`}
             onClick={() => onChangeFilterType('user')}
           >
-            By User
+            <span className="sr-only">By</span> User
           </button>
         </div>
         <div className="d-none d-sm-block d-md-none col-sm-2"></div>
