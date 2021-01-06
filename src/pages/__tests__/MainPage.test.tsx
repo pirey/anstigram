@@ -208,4 +208,19 @@ describe('MainPage', () => {
     const qs2 = new URLSearchParams((testLocation as any).search)
     expect(qs2.has('search')).toBe(false)
   })
+
+  test('show no results message if search not found', async () => {
+    render(
+      <MemoryRouter>
+        <MainPage />
+      </MemoryRouter>
+    )
+
+    await waitForElementToBeRemoved(() => screen.queryByText(/loading.../i))
+
+    const searchInput = screen.getByPlaceholderText(/search/i)
+    userEvent.type(searchInput, 'foo bar bazz should be not found')
+
+    expect(screen.getByText(/no results/i)).toBeInTheDocument()
+  })
 })
