@@ -1,5 +1,5 @@
 import { Link, useParams } from 'react-router-dom'
-import { Loading } from 'components'
+import { Loading, ErrorMessage } from 'components'
 import { useState, useEffect, SyntheticEvent } from 'react'
 import { fetchAlbum, fetchPhoto } from 'api'
 import { usePhotoComments, useFavoritePhotos } from 'hooks'
@@ -13,8 +13,11 @@ interface Params {
 function PhotoPage() {
   const { photoId = '' } = useParams<Params>()
 
+  const [errorMessage, setErrorMessage] = useState('')
   const [favorites, setFavorites] = useFavoritePhotos()
-  const [comments, addComment, removeComment] = usePhotoComments(parseInt(photoId))
+  const [comments, addComment, removeComment] = usePhotoComments(
+    parseInt(photoId)
+  )
   const [album, setAlbum] = useState<Album | null>(null)
   const [photo, setPhoto] = useState<Photo | null>(null)
   const [loading, setLoading] = useState(true)
@@ -53,8 +56,18 @@ function PhotoPage() {
           setAlbum(album)
         })
       })
+      .catch(e => setErrorMessage(e.message))
       .finally(() => setLoading(false))
   }, [photoId])
+
+  if (errorMessage) {
+    return (
+      <ErrorMessage
+        message={errorMessage}
+        onClose={() => setErrorMessage('')}
+      />
+    )
+  }
 
   if (loading || !album || !photo) {
     return <Loading />

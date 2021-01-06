@@ -1,5 +1,5 @@
 import { fetchAlbum, fetchAlbumPhotos, fetchUser } from 'api'
-import { Loading, PhotoCard } from 'components'
+import { Loading, PhotoCard, ErrorMessage } from 'components'
 import {
   Album,
   Photo,
@@ -18,6 +18,7 @@ interface Params {
 function AlbumPage() {
   const { albumId } = useParams<Params>()
 
+  const [errorMessage, setErrorMessage] = useState('')
   const [commentsByPhotoId] = useCommentsByPhotoId()
   const [favorites, setFavorites] = useFavoritePhotos()
   const [user, setUser] = useState<User | null>(null)
@@ -50,8 +51,13 @@ function AlbumPage() {
         return fetchUser(album.userId)
       })
       .then(setUser)
+      .catch(e => setErrorMessage(e.message))
       .finally(() => setLoading(false))
   }, [albumId])
+
+  if (errorMessage) {
+    return <ErrorMessage message={errorMessage} onClose={() => setErrorMessage('')} />
+  }
 
   if (loading || !user || !album) {
     return <Loading />

@@ -9,7 +9,13 @@ import {
   getAlbumUser,
 } from 'models'
 import { fetchAlbums, fetchUsers } from 'api'
-import { AlbumCard, Loading, MainPageHeader, Message } from 'components'
+import {
+  AlbumCard,
+  Loading,
+  MainPageHeader,
+  Message,
+  ErrorMessage,
+} from 'components'
 
 function MainPage() {
   const history = useHistory()
@@ -19,6 +25,7 @@ function MainPage() {
   const defaultFilterType = filterTypeFromString(qs.get('filter_by') || '')
   const defaultSearch = qs.get('search') || ''
 
+  const [errorMessage, setErrorMessage] = useState('')
   const [filterBy, setFilterBy] = useState<FilterType>(defaultFilterType)
   const [search, setSearch] = useState(defaultSearch)
   const [loading, setLoading] = useState(true)
@@ -67,6 +74,9 @@ function MainPage() {
           setFilteredAlbums(filterAlbumsByType(users, albums, search, filterBy))
         }
       })
+      .catch((e) => {
+        setErrorMessage(e.message)
+      })
       .finally(() => setLoading(false))
 
     // only need to fetch the data once, hence force to use empty dependency for useEffect
@@ -82,7 +92,12 @@ function MainPage() {
         onSearch={handleSearch}
       />
       <main className="container-xl">
-        {loading ? (
+        {errorMessage ? (
+          <ErrorMessage
+            message={errorMessage}
+            onClose={() => setErrorMessage('')}
+          />
+        ) : loading ? (
           <Loading />
         ) : filteredAlbums.length <= 0 ? (
           <Message>No results...</Message>
