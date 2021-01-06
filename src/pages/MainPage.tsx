@@ -6,7 +6,7 @@ import {
   FilterType,
   filterAlbumsByType,
   filterTypeFromString,
-  getAlbumUser,
+  getAlbumUser
 } from 'models'
 import { fetchAlbums, fetchUsers } from 'api'
 import {
@@ -14,7 +14,7 @@ import {
   Loading,
   MainPageHeader,
   Message,
-  ErrorMessage,
+  ErrorMessage
 } from 'components'
 
 function MainPage() {
@@ -74,7 +74,7 @@ function MainPage() {
           setFilteredAlbums(filterAlbumsByType(users, albums, search, filterBy))
         }
       })
-      .catch((e) => {
+      .catch(e => {
         setErrorMessage(e.message)
       })
       .finally(() => setLoading(false))
@@ -103,7 +103,7 @@ function MainPage() {
           <Message>No results...</Message>
         ) : (
           <section className="row" role="list">
-            {filteredAlbums.map((album) => {
+            {filteredAlbums.map(album => {
               const albumUser = getAlbumUser(users, album)
               return (
                 <div

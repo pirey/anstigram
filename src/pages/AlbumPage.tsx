@@ -5,7 +5,7 @@ import {
   Photo,
   toggleFavoritePhoto,
   isPhotoFavorited,
-  User,
+  User
 } from 'models'
 import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
@@ -42,7 +42,7 @@ function AlbumPage() {
     setLoading(true)
     Promise.all([
       fetchAlbum(parseInt(albumId)),
-      fetchAlbumPhotos(parseInt(albumId)),
+      fetchAlbumPhotos(parseInt(albumId))
     ])
       .then(([album, albumPhotos]) => {
         setAlbum(album)
@@ -56,7 +56,12 @@ function AlbumPage() {
   }, [albumId])
 
   if (errorMessage) {
-    return <ErrorMessage message={errorMessage} onClose={() => setErrorMessage('')} />
+    return (
+      <ErrorMessage
+        message={errorMessage}
+        onClose={() => setErrorMessage('')}
+      />
+    )
   }
 
   if (loading || !user || !album) {
@@ -94,7 +99,7 @@ function AlbumPage() {
       </header>
       <main className="container-xl">
         <section className="row" role="list">
-          {albumPhotos.map((photo) => (
+          {albumPhotos.map(photo => (
             <div
               key={photo.id}
               className="col-sm-6 col-md-4 col-lg-3 mb-3"

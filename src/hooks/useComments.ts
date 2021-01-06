@@ -7,9 +7,9 @@ interface CommentsByPhotoId {
 }
 
 export function useCommentsByPhotoId() {
-  const [commentsByPhotoId, setCommentsByPhotoId_] = useState<CommentsByPhotoId>(
-    {}
-  )
+  const [commentsByPhotoId, setCommentsByPhotoId_] = useState<
+    CommentsByPhotoId
+  >({})
 
   const setCommentsByPhotoId = (commentsByPhotoId: CommentsByPhotoId) => {
     setCommentsByPhotoId_(commentsByPhotoId)

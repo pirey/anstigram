@@ -36,7 +36,7 @@ function FavoritePhotosPage() {
           <Message>You don't have any favorite photos, yet...</Message>
         ) : (
           <div className="row">
-            {favorites.map((favorite) => (
+            {favorites.map(favorite => (
               <div
                 key={favorite.id}
                 className="col-sm-6 col-md-4 col-lg-3 mb-3"
