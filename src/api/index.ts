@@ -5,8 +5,8 @@ export async function fetchAlbum(albumId: number) {
       method: 'GET',
       headers: {
         Accept: 'application/json',
-        'Content-Type': 'application/json'
-      }
+        'Content-Type': 'application/json',
+      },
     }
   )
   return await response.json()
@@ -17,9 +17,23 @@ export async function fetchAlbums() {
     method: 'GET',
     headers: {
       Accept: 'application/json',
-      'Content-Type': 'application/json'
-    }
+      'Content-Type': 'application/json',
+    },
   })
+  return await response.json()
+}
+
+export async function fetchUserAlbums(userId: number) {
+  const response = await fetch(
+    `https://jsonplaceholder.typicode.com/albums?userId=${userId}`,
+    {
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+    }
+  )
   return await response.json()
 }
 
@@ -30,8 +44,8 @@ export async function fetchPhoto(photoId: number) {
       method: 'GET',
       headers: {
         Accept: 'application/json',
-        'Content-Type': 'application/json'
-      }
+        'Content-Type': 'application/json',
+      },
     }
   )
   return await response.json()
@@ -44,8 +58,8 @@ export async function fetchAlbumPhotos(albumId: number) {
       method: 'GET',
       headers: {
         Accept: 'application/json',
-        'Content-Type': 'application/json'
-      }
+        'Content-Type': 'application/json',
+      },
     }
   )
   return await response.json()
@@ -56,8 +70,8 @@ export async function fetchUsers() {
     method: 'GET',
     headers: {
       Accept: 'application/json',
-      'Content-Type': 'application/json'
-    }
+      'Content-Type': 'application/json',
+    },
   })
   return await response.json()
 }
@@ -69,8 +83,8 @@ export async function fetchUser(userId: number) {
       method: 'GET',
       headers: {
         Accept: 'application/json',
-        'Content-Type': 'application/json'
-      }
+        'Content-Type': 'application/json',
+      },
     }
   )
   return await response.json()

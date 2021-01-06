@@ -5,8 +5,12 @@ import usersMock from './users'
 import photosMock from './photos'
 
 const server = setupServer(
-  rest.get('https://jsonplaceholder.typicode.com/albums', (_req, res, ctx) => {
-    return res(ctx.delay(10), ctx.json(albumsMock))
+  rest.get('https://jsonplaceholder.typicode.com/albums', (req, res, ctx) => {
+    const userId = req.url.searchParams.get('userId')
+    const albumsResult = userId
+      ? albumsMock.filter((album) => album.userId === parseInt(userId))
+      : albumsMock
+    return res(ctx.delay(10), ctx.json(albumsResult))
   }),
 
   rest.get(
@@ -15,7 +19,7 @@ const server = setupServer(
       const { albumId } = req.params
       return res(
         ctx.delay(10),
-        ctx.json(albumsMock.find(album => album.id === parseInt(albumId)))
+        ctx.json(albumsMock.find((album) => album.id === parseInt(albumId)))
       )
     }
   ),
@@ -26,7 +30,7 @@ const server = setupServer(
       const { userId } = req.params
       return res(
         ctx.delay(10),
-        ctx.json(usersMock.find(user => user.id === parseInt(userId)))
+        ctx.json(usersMock.find((user) => user.id === parseInt(userId)))
       )
     }
   ),
@@ -41,7 +45,7 @@ const server = setupServer(
       const { photoId } = req.params
       return res(
         ctx.delay(10),
-        ctx.json(photosMock.find(photo => photo.id === parseInt(photoId)))
+        ctx.json(photosMock.find((photo) => photo.id === parseInt(photoId)))
       )
     }
   ),
@@ -49,7 +53,7 @@ const server = setupServer(
   rest.get('https://jsonplaceholder.typicode.com/photos', (req, res, ctx) => {
     const albumId = req.url.searchParams.get('albumId')
     const photosResult = albumId
-      ? photosMock.filter(photo => photo.albumId === parseInt(albumId))
+      ? photosMock.filter((photo) => photo.albumId === parseInt(albumId))
       : photosMock
     return res(ctx.delay(10), ctx.json(photosResult))
   })
