@@ -21,7 +21,7 @@ function AlbumCard(props: Props) {
         <h5 className="card-title text-truncate mb-1">
           <Link
             className="text-danger text-capitalize text-decoration-none font-weight-bold"
-            to={`/album/${albumId}`}
+            to={`/albums/${albumId}`}
           >
             {title}
           </Link>
@@ -31,7 +31,7 @@ function AlbumCard(props: Props) {
           <span className="font-italic">
             {userId ? (
               <Link
-                className="text-reset text-decoration-none"
+                className="text-reset text-decoration-none font-weight-bold"
                 to={`/users/${userId}`}
               >
                 {username}

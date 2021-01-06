@@ -1,5 +1,88 @@
+import { fetchAlbum, fetchAlbumPhotos, fetchUser } from 'api'
+import { Loading } from 'components'
+import { Album, Photo, User } from 'models'
+import { useEffect, useState } from 'react'
+import { Link, useParams } from 'react-router-dom'
+
+interface Params {
+  albumId?: string | undefined
+}
+
 function AlbumPage() {
-  return <div />
+  const { albumId } = useParams<Params>()
+
+  const [user, setUser] = useState<User | null>(null)
+  const [album, setAlbum] = useState<Album | null>(null)
+  const [albumPhotos, setAlbumPhotos] = useState<Photo[]>([])
+  const [selectedPhoto, setSelectedPhoto] = useState<Photo | null>(null)
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    if (!albumId) {
+      return
+    }
+
+    setLoading(true)
+    Promise.all([
+      fetchAlbum(parseInt(albumId)),
+      fetchAlbumPhotos(parseInt(albumId)),
+    ])
+      .then(([album, albumPhotos]) => {
+        setAlbum(album)
+        setAlbumPhotos(albumPhotos)
+
+        return fetchUser(album.userId)
+      })
+      .then(setUser)
+      .finally(() => setLoading(false))
+  }, [albumId])
+
+  if (loading || !user || !album) {
+    return <Loading />
+  }
+
+  return (
+    <>
+      <header className="container-xl my-3">
+        <div className="row align-items center">
+          <div className="mt-3 md-sm-0 order-last order-sm-first col-12 col-sm-2 col-md-1 d-flex align-items-center justify-content-start justify-content-sm-center">
+            <Link
+              to="/"
+              className="text-lg text-danger text-decoration-none font-weight-bolder"
+            >
+              Go Back
+            </Link>
+          </div>
+          <div className="col-sm-10 col-md-11 d-flex flex-column justify-content-center">
+            <h1 className="h1 text-capitalize">{album.title}</h1>
+            <div className="font-italic">
+              <span className="text-muted mr-2">By</span>
+              <Link
+                to={`/users/${user.id}`}
+                className="text-decoration-none text-reset font-weight-bold mr-2"
+              >
+                {user.name}
+              </Link>
+              <span className="text-lowercase text-muted">{user.email}</span>
+            </div>
+          </div>
+        </div>
+      </header>
+      <main className="container-xl">
+        <section className="row" role="list">
+          {albumPhotos.map((photo) => (
+            <div
+              key={photo.id}
+              className="col-sm-6 col-md-4 col-lg-3 mb-3"
+              role="listitem"
+            >
+              {photo.title}
+            </div>
+          ))}
+        </section>
+      </main>
+    </>
+  )
 }
 
 export default AlbumPage

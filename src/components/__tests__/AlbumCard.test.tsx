@@ -17,8 +17,8 @@ describe('AlbumCard', () => {
     )
 
     expect(
-      screen.getByRole('heading', { name: /album title/i })
+      screen.getByRole('link', { name: /album title/i })
     ).toBeInTheDocument()
-    expect(screen.getByText(/user name/i)).toBeInTheDocument()
+    expect(screen.getByRole('link', { name: /user name/i })).toBeInTheDocument()
   })
 })

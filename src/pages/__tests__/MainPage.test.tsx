@@ -7,7 +7,7 @@ import '@testing-library/jest-dom/extend-expect'
 import userEvent from '@testing-library/user-event'
 import { MemoryRouter } from 'react-router-dom'
 import MainPage from 'pages/MainPage'
-import albumsMock from 'mocks/albums'
+import { albums as albumsMock } from 'mocks'
 
 describe('MainPage', () => {
   test('show and hide loading', async () => {

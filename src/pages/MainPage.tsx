@@ -85,7 +85,7 @@ function MainPage() {
         {loading ? (
           <Loading />
         ) : (
-          <div className="row" role="list">
+          <section className="row" role="list">
             {filteredAlbums.map(album => {
               const albumUser = getAlbumUser(users, album)
               return (
@@ -104,7 +104,7 @@ function MainPage() {
                 </div>
               )
             })}
-          </div>
+          </section>
         )}
       </main>
     </>
