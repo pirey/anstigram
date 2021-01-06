@@ -5,7 +5,7 @@ import {
 } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
 import userEvent from '@testing-library/user-event'
-import { MemoryRouter } from 'react-router-dom'
+import { MemoryRouter, Route } from 'react-router-dom'
 import MainPage from 'pages/MainPage'
 import { albums as albumsMock } from 'mocks'
 
@@ -43,16 +43,16 @@ describe('MainPage', () => {
 
     await waitForElementToBeRemoved(() => screen.queryByText(/loading.../i))
 
-    const filterByAlbumTitle = screen.getByRole('button', {
+    const filterByAlbumButton = screen.getByRole('button', {
       name: /by title/i
     })
-    const filterByUserName = screen.getByRole('button', {
+    const filterByUserButton = screen.getByRole('button', {
       name: /by user/i
     })
     const searchInput = screen.getByPlaceholderText(/search/i)
 
-    expect(filterByAlbumTitle).toBeInTheDocument()
-    expect(filterByUserName).toBeInTheDocument()
+    expect(filterByAlbumButton).toBeInTheDocument()
+    expect(filterByUserButton).toBeInTheDocument()
     expect(searchInput).toBeInTheDocument()
   })
 
@@ -123,22 +123,89 @@ describe('MainPage', () => {
 
     await waitForElementToBeRemoved(() => screen.queryByText(/loading.../i))
 
-    const filterByAlbumTitle = screen.getByRole('button', {
+    const filterByAlbumButton = screen.getByRole('button', {
       name: /by title/i
     })
-    const filterByUserName = screen.getByRole('button', {
+    const filterByUserButton = screen.getByRole('button', {
       name: /by user/i
     })
     const searchInput = screen.getByPlaceholderText(/search/i)
 
-    userEvent.click(filterByAlbumTitle)
+    userEvent.click(filterByAlbumButton)
     userEvent.clear(searchInput)
     userEvent.type(searchInput, 'album')
     expect(screen.getAllByRole('listitem')).toHaveLength(2)
 
-    userEvent.click(filterByUserName)
+    userEvent.click(filterByUserButton)
     userEvent.clear(searchInput)
     userEvent.type(searchInput, 'ervin')
     expect(screen.getAllByRole('listitem')).toHaveLength(1)
+  })
+
+  test('change filter type updates query string', async () => {
+    let testLocation
+
+    render(
+      <MemoryRouter>
+        <MainPage />
+        <Route
+          path="*"
+          render={({ location }) => {
+            testLocation = location
+            return null
+          }}
+        />
+      </MemoryRouter>
+    )
+
+    await waitForElementToBeRemoved(() => screen.queryByText(/loading.../i))
+
+    const filterByAlbumButton = screen.getByRole('button', {
+      name: /by title/i
+    })
+    const filterByUserButton = screen.getByRole('button', {
+      name: /by user/i
+    })
+
+    userEvent.click(filterByAlbumButton)
+    const qs1 = new URLSearchParams((testLocation as any).search)
+    expect(qs1.has('filter_by')).toBe(true)
+    expect(qs1.get('filter_by')).toBe('album')
+
+    userEvent.click(filterByUserButton)
+    const qs2 = new URLSearchParams((testLocation as any).search)
+    expect(qs2.has('filter_by')).toBe(true)
+    expect(qs2.get('filter_by')).toBe('user')
+  })
+
+  test('change search query updates query string', async () => {
+    let testLocation
+
+    render(
+      <MemoryRouter>
+        <MainPage />
+        <Route
+          path="*"
+          render={({ location }) => {
+            testLocation = location
+            return null
+          }}
+        />
+      </MemoryRouter>
+    )
+
+    await waitForElementToBeRemoved(() => screen.queryByText(/loading.../i))
+
+    const searchInput = screen.getByPlaceholderText(/search/i)
+
+    userEvent.clear(searchInput)
+    userEvent.type(searchInput, 'testing')
+    const qs1 = new URLSearchParams((testLocation as any).search)
+    expect(qs1.has('search')).toBe(true)
+    expect(qs1.get('search')).toBe('testing')
+
+    userEvent.clear(searchInput)
+    const qs2 = new URLSearchParams((testLocation as any).search)
+    expect(qs2.has('search')).toBe(false)
   })
 })
