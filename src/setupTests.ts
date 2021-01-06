@@ -18,6 +18,9 @@ import { server } from './mocks/server'
 
 beforeAll(() => server.listen())
 
-beforeEach(() => server.resetHandlers())
+beforeEach(() => {
+  server.resetHandlers()
+  localStorage.clear()
+})
 
 afterAll(() => server.close())

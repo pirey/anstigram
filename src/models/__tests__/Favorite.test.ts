@@ -4,7 +4,8 @@ import {
   addPhotoToFavorites,
   removePhotoFromFavorites,
   getFavoriteByPhotoId,
-  toggleFavoritePhoto
+  toggleFavoritePhoto,
+  isPhotoFavorited
 } from 'models'
 import { FavoritePhoto } from 'models/Favorite'
 
@@ -108,5 +109,12 @@ describe('favorite photo manager', () => {
       firstAlbum
     )
     expect(favorites__).toHaveLength(1)
+  })
+
+  test('is photo liked', () => {
+    const favorites = toggleFavoritePhoto([], firstAlbumPhoto, firstAlbum)
+
+    expect(isPhotoFavorited(favorites, firstAlbumPhoto)).toBe(true)
+    expect(isPhotoFavorited(favorites, secondAlbumPhoto)).toBe(false)
   })
 })

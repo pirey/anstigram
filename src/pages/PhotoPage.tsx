@@ -1,9 +1,9 @@
 import { Link, useParams } from 'react-router-dom'
 import { Loading } from 'components'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, SyntheticEvent } from 'react'
 import { fetchAlbum, fetchPhoto } from 'api'
-import { useFavoritePhotos } from 'hooks'
-import { Album, Photo } from 'models'
+import { useComments, useFavoritePhotos } from 'hooks'
+import { Album, Photo, isPhotoFavorited, toggleFavoritePhoto } from 'models'
 import styles from './PhotoPage.module.css'
 
 interface Params {
@@ -11,12 +11,29 @@ interface Params {
 }
 
 function PhotoPage() {
-  const { photoId } = useParams<Params>()
+  const { photoId = '' } = useParams<Params>()
 
   const [favorites, setFavorites] = useFavoritePhotos()
+  const [comments, addComment, removeComment] = useComments(parseInt(photoId))
   const [album, setAlbum] = useState<Album | null>(null)
   const [photo, setPhoto] = useState<Photo | null>(null)
   const [loading, setLoading] = useState(true)
+  const [newComment, setNewComment] = useState('')
+
+  const handleLikeButtonClick = () => {
+    if (!album || !photo) {
+      return
+    }
+    const newFavorites = toggleFavoritePhoto(favorites, photo, album)
+    setFavorites(newFavorites)
+  }
+
+  const handleSubmit = (e: SyntheticEvent) => {
+    e.preventDefault()
+
+    addComment(newComment)
+    setNewComment('')
+  }
 
   useEffect(() => {
     if (!photoId) {
@@ -25,8 +42,8 @@ function PhotoPage() {
 
     setLoading(true)
     fetchPhoto(parseInt(photoId))
-      .then(photo => {
-        return fetchAlbum(parseInt(photo.albumId)).then(album => {
+      .then((photo) => {
+        return fetchAlbum(parseInt(photo.albumId)).then((album) => {
           setPhoto(photo)
           setAlbum(album)
         })
@@ -37,6 +54,8 @@ function PhotoPage() {
   if (loading || !album || !photo) {
     return <Loading />
   }
+
+  const isFavorited = isPhotoFavorited(favorites, photo)
 
   return (
     <>
@@ -80,82 +99,55 @@ function PhotoPage() {
           <div
             className={`col-12 col-md-5 h-100 d-flex flex-column ${styles.commentColumn}`}
           >
-            <div className="row my-3 no-gutters">
-              <div className="col-2 d-flex justify-content-center align-items-center">
-                <span className="font-weight-bold text-muted">Like</span>
+            <form onSubmit={handleSubmit}>
+              <div className="row my-3 no-gutters">
+                <div className="col-2 d-flex justify-content-center align-items-center">
+                  <span
+                    role="button"
+                    className={`font-weight-bold ${
+                      isFavorited ? 'text-danger' : 'text-muted'
+                    }`}
+                    onClick={handleLikeButtonClick}
+                  >
+                    {isFavorited ? 'Liked' : 'Like'}
+                  </span>
+                </div>
+                <div className="col-7">
+                  <input
+                    type="text"
+                    className="form-control rounded-pill"
+                    placeholder="Add a comment..."
+                    value={newComment}
+                    onChange={(e) => setNewComment(e.target.value)}
+                  />
+                </div>
+                <div className="col-3 d-flex justify-content-center align-items-center">
+                  <button
+                    className="btn btn-block btn-danger mx-2 rounded-pill"
+                    type="button"
+                    onClick={handleSubmit}
+                  >
+                    Send
+                  </button>
+                </div>
               </div>
-              <div className="col-7">
-                <input
-                  type="text"
-                  className="form-control rounded-pill"
-                  placeholder="Add a comment..."
-                />
-              </div>
-              <div className="col-3 d-flex justify-content-center align-items-center">
-                <button
-                  className="btn btn-block btn-danger mx-2 rounded-pill"
-                  type="button"
-                >
-                  Send
-                </button>
-              </div>
-            </div>
+            </form>
             <ul className="list-group list-group-flush overflow-auto">
-              <li className="list-group-item">Cras justo odio</li>
-              <li className="list-group-item">Dapibus ac facilisis in</li>
-              <li className="list-group-item">Vestibulum at eros</li>
-              <li className="list-group-item">Cras justo odio</li>
-              <li className="list-group-item">Dapibus ac facilisis in</li>
-              <li className="list-group-item">Cras justo odio</li>
-              <li className="list-group-item">Dapibus ac facilisis in</li>
-              <li className="list-group-item">Vestibulum at eros</li>
-              <li className="list-group-item">Cras justo odio</li>
-              <li className="list-group-item">Dapibus ac facilisis in</li>
-              <li className="list-group-item">Cras justo odio</li>
-              <li className="list-group-item">Dapibus ac facilisis in</li>
-              <li className="list-group-item">Vestibulum at eros</li>
-              <li className="list-group-item">Cras justo odio</li>
-              <li className="list-group-item">Dapibus ac facilisis in</li>
-              <li className="list-group-item">Cras justo odio</li>
-              <li className="list-group-item">Dapibus ac facilisis in</li>
-              <li className="list-group-item">Vestibulum at eros</li>
-              <li className="list-group-item">Cras justo odio</li>
-              <li className="list-group-item">Dapibus ac facilisis in</li>
-              <li className="list-group-item">Cras justo odio</li>
-              <li className="list-group-item">Dapibus ac facilisis in</li>
-              <li className="list-group-item">Vestibulum at eros</li>
-              <li className="list-group-item">Cras justo odio</li>
-              <li className="list-group-item">Dapibus ac facilisis in</li>
-              <li className="list-group-item">Cras justo odio</li>
-              <li className="list-group-item">Dapibus ac facilisis in</li>
-              <li className="list-group-item">Vestibulum at eros</li>
-              <li className="list-group-item">Cras justo odio</li>
-              <li className="list-group-item">Dapibus ac facilisis in</li>
-              <li className="list-group-item">Cras justo odio</li>
-              <li className="list-group-item">Dapibus ac facilisis in</li>
-              <li className="list-group-item">Vestibulum at eros</li>
-              <li className="list-group-item">Cras justo odio</li>
-              <li className="list-group-item">Dapibus ac facilisis in</li>
-              <li className="list-group-item">Cras justo odio</li>
-              <li className="list-group-item">Dapibus ac facilisis in</li>
-              <li className="list-group-item">Vestibulum at eros</li>
-              <li className="list-group-item">Cras justo odio</li>
-              <li className="list-group-item">Dapibus ac facilisis in</li>
-              <li className="list-group-item">Cras justo odio</li>
-              <li className="list-group-item">Dapibus ac facilisis in</li>
-              <li className="list-group-item">Vestibulum at eros</li>
-              <li className="list-group-item">Cras justo odio</li>
-              <li className="list-group-item">Dapibus ac facilisis in</li>
-              <li className="list-group-item">Cras justo odio</li>
-              <li className="list-group-item">Dapibus ac facilisis in</li>
-              <li className="list-group-item">Vestibulum at eros</li>
-              <li className="list-group-item">Cras justo odio</li>
-              <li className="list-group-item">Dapibus ac facilisis in</li>
-              <li className="list-group-item">Cras justo odio</li>
-              <li className="list-group-item">Dapibus ac facilisis in</li>
-              <li className="list-group-item">Vestibulum at eros</li>
-              <li className="list-group-item">Cras justo odio</li>
-              <li className="list-group-item">Dapibus ac facilisis in</li>
+              {comments.map((comment, index) => (
+                <li
+                  key={comment + index}
+                  className="list-group-item d-flex justify-content-between align-items-center"
+                >
+                  <span>{comment}</span>
+                  <span
+                    role="button"
+                    className="text-muted font-weight-bold"
+                    onClick={() => removeComment(comment, index)}
+                  >
+                    Delete
+                  </span>
+                </li>
+              ))}
             </ul>
           </div>
         </div>

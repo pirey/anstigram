@@ -2,9 +2,9 @@ import { fetchAlbum, fetchAlbumPhotos, fetchUser } from 'api'
 import { Loading, PhotoCard } from 'components'
 import {
   Album,
-  getFavoriteByPhotoId,
   Photo,
   toggleFavoritePhoto,
+  isPhotoFavorited,
   User
 } from 'models'
 import { useEffect, useState } from 'react'
@@ -30,11 +30,6 @@ function AlbumPage() {
     }
     const newFavorites = toggleFavoritePhoto(favorites, photo, album)
     setFavorites(newFavorites)
-  }
-
-  const isPhotoLiked = (photo: Photo): boolean => {
-    const exists = getFavoriteByPhotoId(favorites, photo.id)
-    return exists ? true : false
   }
 
   useEffect(() => {
@@ -100,7 +95,7 @@ function AlbumPage() {
             >
               <PhotoCard
                 photo={photo}
-                liked={isPhotoLiked(photo)}
+                liked={isPhotoFavorited(favorites, photo)}
                 onLikeButtonClick={handleLikeButtonClick}
                 className="h-100"
               />
