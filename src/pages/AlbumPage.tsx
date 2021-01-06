@@ -5,11 +5,11 @@ import {
   Photo,
   toggleFavoritePhoto,
   isPhotoFavorited,
-  User
+  User,
 } from 'models'
 import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
-import { useFavoritePhotos } from 'hooks'
+import { useCommentsByPhotoId, useFavoritePhotos } from 'hooks'
 
 interface Params {
   albumId?: string | undefined
@@ -18,6 +18,7 @@ interface Params {
 function AlbumPage() {
   const { albumId } = useParams<Params>()
 
+  const [commentsByPhotoId] = useCommentsByPhotoId()
   const [favorites, setFavorites] = useFavoritePhotos()
   const [user, setUser] = useState<User | null>(null)
   const [album, setAlbum] = useState<Album | null>(null)
@@ -40,7 +41,7 @@ function AlbumPage() {
     setLoading(true)
     Promise.all([
       fetchAlbum(parseInt(albumId)),
-      fetchAlbumPhotos(parseInt(albumId))
+      fetchAlbumPhotos(parseInt(albumId)),
     ])
       .then(([album, albumPhotos]) => {
         setAlbum(album)
@@ -87,7 +88,7 @@ function AlbumPage() {
       </header>
       <main className="container-xl">
         <section className="row" role="list">
-          {albumPhotos.map(photo => (
+          {albumPhotos.map((photo) => (
             <div
               key={photo.id}
               className="col-sm-6 col-md-4 col-lg-3 mb-3"
@@ -95,6 +96,11 @@ function AlbumPage() {
             >
               <PhotoCard
                 photo={photo}
+                commentCount={
+                  commentsByPhotoId[photo.id]
+                    ? commentsByPhotoId[photo.id].length
+                    : 0
+                }
                 liked={isPhotoFavorited(favorites, photo)}
                 onLikeButtonClick={handleLikeButtonClick}
                 className="h-100"

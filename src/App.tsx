@@ -3,6 +3,7 @@ import MainPage from 'pages/MainPage'
 import AlbumPage from 'pages/AlbumPage'
 import PhotoPage from 'pages/PhotoPage'
 import UserPage from 'pages/UserPage'
+import FavoritePhotosPage from 'pages/FavoritePhotosPage'
 
 function App() {
   return (
@@ -11,6 +12,7 @@ function App() {
         <Route path="/photos/:photoId" exact component={PhotoPage} />
         <Route path="/albums/:albumId" exact component={AlbumPage} />
         <Route path="/users/:userId" exact component={UserPage} />
+        <Route path="/favorites" exact component={FavoritePhotosPage} />
         <Route path="/" exact component={MainPage} />
       </Switch>
     </Router>

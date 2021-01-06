@@ -51,7 +51,7 @@ function PhotoCard(props: Props) {
         >
           Comment{' '}
           {commentCount <= 0 ? null : (
-            <span className="badge badge-pill badge-danger">
+            <span className="badge badge-pill badge-danger ml-1 px-2">
               {commentCount}
             </span>
           )}

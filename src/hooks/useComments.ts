@@ -6,7 +6,31 @@ interface CommentsByPhotoId {
   [photoId: number]: string[]
 }
 
-export default function useComments(photoId: number) {
+export function useCommentsByPhotoId() {
+  const [commentsByPhotoId, setCommentsByPhotoId_] = useState<CommentsByPhotoId>(
+    {}
+  )
+
+  const setCommentsByPhotoId = (commentsByPhotoId: CommentsByPhotoId) => {
+    setCommentsByPhotoId_(commentsByPhotoId)
+    localStorage.setItem(COMMENTS_LS_KEY, JSON.stringify(commentsByPhotoId))
+  }
+
+  useEffect(() => {
+    try {
+      const commentsByPhotoId = JSON.parse(
+        localStorage.getItem(COMMENTS_LS_KEY) || '{}'
+      )
+      setCommentsByPhotoId_(commentsByPhotoId)
+    } catch (_e) {
+      setCommentsByPhotoId_({})
+    }
+  }, [])
+
+  return [commentsByPhotoId, setCommentsByPhotoId] as const
+}
+
+export default function usePhotoComments(photoId: number) {
   // represents all comments for all photos
   const [commentsByPhotoId, setCommentsByPhotoId] = useState<CommentsByPhotoId>(
     {}

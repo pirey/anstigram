@@ -87,6 +87,30 @@ describe('comment feature / photo detail', () => {
     expect(screen.getAllByRole('button', { name: /delete/i })).toHaveLength(1)
   })
 
+  test('prevent empty string comment', async () => {
+    render(
+      <MemoryRouter initialEntries={[`/photos/${firstPhoto.id}`]}>
+        <Switch>
+          <Route path="/photos/:photoId" exact component={PhotoPage} />
+        </Switch>
+      </MemoryRouter>
+    )
+
+    await waitForElementToBeRemoved(() => screen.queryByText(/loading.../i))
+
+    const input = screen.getByPlaceholderText(
+      /add a comment/i
+    ) as HTMLInputElement
+    const sendButton = screen.getByRole('button', { name: /send/i })
+    userEvent.type(input, '     ')
+    userEvent.click(sendButton)
+
+    expect(input.value).toBe('')
+
+    // make sure no comment was added if input is empty
+    expect(screen.queryAllByRole('button', { name: /delete/i })).toHaveLength(0)
+  })
+
   test('delete comment', async () => {
     render(
       <MemoryRouter initialEntries={[`/photos/${firstPhoto.id}`]}>

@@ -6,10 +6,10 @@ import {
   FilterType,
   filterAlbumsByType,
   filterTypeFromString,
-  getAlbumUser
+  getAlbumUser,
 } from 'models'
 import { fetchAlbums, fetchUsers } from 'api'
-import { AlbumCard, Loading, MainPageHeader } from 'components'
+import { AlbumCard, Loading, MainPageHeader, Message } from 'components'
 
 function MainPage() {
   const history = useHistory()
@@ -84,9 +84,11 @@ function MainPage() {
       <main className="container-xl">
         {loading ? (
           <Loading />
+        ) : filteredAlbums.length <= 0 ? (
+          <Message>No results...</Message>
         ) : (
           <section className="row" role="list">
-            {filteredAlbums.map(album => {
+            {filteredAlbums.map((album) => {
               const albumUser = getAlbumUser(users, album)
               return (
                 <div

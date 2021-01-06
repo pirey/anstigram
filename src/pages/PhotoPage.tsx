@@ -2,7 +2,7 @@ import { Link, useParams } from 'react-router-dom'
 import { Loading } from 'components'
 import { useState, useEffect, SyntheticEvent } from 'react'
 import { fetchAlbum, fetchPhoto } from 'api'
-import { useComments, useFavoritePhotos } from 'hooks'
+import { usePhotoComments, useFavoritePhotos } from 'hooks'
 import { Album, Photo, isPhotoFavorited, toggleFavoritePhoto } from 'models'
 import styles from './PhotoPage.module.css'
 
@@ -14,7 +14,7 @@ function PhotoPage() {
   const { photoId = '' } = useParams<Params>()
 
   const [favorites, setFavorites] = useFavoritePhotos()
-  const [comments, addComment, removeComment] = useComments(parseInt(photoId))
+  const [comments, addComment, removeComment] = usePhotoComments(parseInt(photoId))
   const [album, setAlbum] = useState<Album | null>(null)
   const [photo, setPhoto] = useState<Photo | null>(null)
   const [loading, setLoading] = useState(true)
@@ -31,8 +31,13 @@ function PhotoPage() {
   const handleSubmit = (e: SyntheticEvent) => {
     e.preventDefault()
 
-    addComment(newComment)
     setNewComment('')
+
+    if (newComment.trim() === '') {
+      return
+    }
+
+    addComment(newComment)
   }
 
   useEffect(() => {
@@ -42,8 +47,8 @@ function PhotoPage() {
 
     setLoading(true)
     fetchPhoto(parseInt(photoId))
-      .then(photo => {
-        return fetchAlbum(parseInt(photo.albumId)).then(album => {
+      .then((photo) => {
+        return fetchAlbum(parseInt(photo.albumId)).then((album) => {
           setPhoto(photo)
           setAlbum(album)
         })
@@ -118,7 +123,7 @@ function PhotoPage() {
                     className="form-control rounded-pill"
                     placeholder="Add a comment..."
                     value={newComment}
-                    onChange={e => setNewComment(e.target.value)}
+                    onChange={(e) => setNewComment(e.target.value)}
                   />
                 </div>
                 <div className="col-3 d-flex justify-content-center align-items-center">

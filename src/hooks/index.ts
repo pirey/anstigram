@@ -1,2 +1,3 @@
 export { default as useFavoritePhotos } from './useFavoritePhotos'
-export { default as useComments } from './useComments'
+export { default as usePhotoComments } from './useComments'
+export * from './useComments'
