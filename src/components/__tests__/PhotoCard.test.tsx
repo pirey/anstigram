@@ -1,4 +1,5 @@
 import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import { photos as photosMock } from 'mocks'
 import PhotoCard from '../PhotoCard'
 
@@ -35,5 +36,14 @@ describe('PhotoCard', () => {
     expect(
       screen.getByRole('button', { name: /comment 7/i })
     ).toBeInTheDocument()
+  })
+
+  test('onLikeButtonClick', async () => {
+    const fn = jest.fn()
+    render(<PhotoCard photo={photo} commentCount={7} onLikeButtonClick={fn} />)
+
+    userEvent.click(screen.getByRole('button', { name: /like/i }))
+
+    expect(fn).toHaveBeenCalledWith(photo)
   })
 })
