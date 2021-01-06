@@ -103,24 +103,6 @@ function UserPage() {
                   />
                 </div>
               ))}
-              <div className="col-md-6 col-lg-4">
-                <AlbumCard
-                  albumId={1}
-                  userId={1}
-                  userName="Leanne Gravin"
-                  title="First Album"
-                  className="h-100"
-                />
-              </div>
-              <div className="col-md-6 col-lg-4">
-                <AlbumCard
-                  albumId={1}
-                  userId={1}
-                  userName="Leanne Gravin"
-                  title="First Album"
-                  className="h-100"
-                />
-              </div>
             </div>
           </div>
         </div>
