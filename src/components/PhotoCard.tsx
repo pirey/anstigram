@@ -36,14 +36,15 @@ function PhotoCard(props: Props) {
         />
       </Link>
       <div className="card-footer bg-white d-flex flex-row py-1 px-0">
-        <button
+        <span
+          role="button"
           onClick={handleLikeButtonClick}
           className={`btn btn-sm btn-link flex-grow-1 text-decoration-none font-weight-bold ${
             liked ? 'text-danger' : 'text-muted'
           }`}
         >
           {liked ? 'Liked' : 'Like'}
-        </button>
+        </span>
         <Link
           className="btn btn-sm btn-link flex-grow-1 text-decoration-none text-muted font-weight-bold"
           to={`/photos/${photo.id}`}

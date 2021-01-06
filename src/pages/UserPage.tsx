@@ -1,5 +1,5 @@
 function UserPage() {
-  return <div />
+  return <></>
 }
 
 export default UserPage

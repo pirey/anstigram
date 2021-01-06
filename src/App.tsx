@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import MainPage from 'pages/MainPage'
 import AlbumPage from 'pages/AlbumPage'
 import PhotoPage from 'pages/PhotoPage'
+import UserPage from 'pages/UserPage'
 
 function App() {
   return (
@@ -9,6 +10,7 @@ function App() {
       <Switch>
         <Route path="/photos/:photoId" exact component={PhotoPage} />
         <Route path="/albums/:albumId" exact component={AlbumPage} />
+        <Route path="/users/:userId" exact component={UserPage} />
         <Route path="/" exact component={MainPage} />
       </Switch>
     </Router>
