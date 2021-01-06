@@ -1,5 +1,5 @@
 import { fetchAlbum, fetchAlbumPhotos, fetchUser } from 'api'
-import { Loading } from 'components'
+import { Loading, PhotoCard } from 'components'
 import { Album, Photo, User } from 'models'
 import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
@@ -45,7 +45,7 @@ function AlbumPage() {
     <>
       <header className="container-xl my-3">
         <div className="row align-items center">
-          <div className="mt-3 md-sm-0 order-last order-sm-first col-12 col-sm-2 col-md-1 d-flex align-items-center justify-content-start justify-content-sm-center">
+          <div className="mt-3 mt-sm-0 order-last order-sm-first col-12 col-sm-2 col-lg-1 d-flex align-items-center justify-content-start justify-content-sm-center">
             <Link
               to="/"
               className="text-lg text-danger text-decoration-none font-weight-bolder"
@@ -53,8 +53,8 @@ function AlbumPage() {
               Go Back
             </Link>
           </div>
-          <div className="col-sm-10 col-md-11 d-flex flex-column justify-content-center">
-            <h1 className="h1 text-capitalize">{album.title}</h1>
+          <div className="col-sm-10 col-lg-11 d-flex flex-column justify-content-center">
+            <h1 className="h3 mb-0 text-capitalize font-weight-bold">{album.title}</h1>
             <div className="font-italic">
               <span className="text-muted mr-2">By</span>
               <Link
@@ -76,7 +76,7 @@ function AlbumPage() {
               className="col-sm-6 col-md-4 col-lg-3 mb-3"
               role="listitem"
             >
-              {photo.title}
+              <PhotoCard photo={photo} className="h-100" />
             </div>
           ))}
         </section>

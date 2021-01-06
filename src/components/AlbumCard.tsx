@@ -17,21 +17,21 @@ function AlbumCard(props: Props) {
         className="card-img-top"
         alt={title}
       />
-      <div className="card-body bg-light">
-        <h5 className="card-title text-truncate mb-1">
+      <div className="card-body bg-light pt-2">
+        <div className="card-title text-truncate mb-0">
           <Link
             className="text-danger text-capitalize text-decoration-none font-weight-bold"
             to={`/albums/${albumId}`}
           >
             {title}
           </Link>
-        </h5>
-        <div>
-          <span className="text-muted mr-2">By</span>
-          <span className="font-italic">
+        </div>
+        <small className="font-italic">
+          <span className="text-muted mr-1">By</span>
+          <span>
             {userId ? (
               <Link
-                className="text-reset text-decoration-none font-weight-bold"
+                className="text-reset text-decoration-none"
                 to={`/users/${userId}`}
               >
                 {username}
@@ -40,7 +40,7 @@ function AlbumCard(props: Props) {
               username
             )}
           </span>
-        </div>
+        </small>
       </div>
     </div>
   )
