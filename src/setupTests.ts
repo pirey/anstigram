@@ -6,6 +6,14 @@ import '@testing-library/jest-dom'
 
 import { server } from './mocks/server'
 
+const localStorageMock = {
+  getItem: jest.fn(),
+  setItem: jest.fn(),
+  removeItem: jest.fn(),
+  clear: jest.fn(),
+}
+global.localStorage = localStorageMock
+
 beforeAll(() => server.listen())
 
 beforeEach(() => server.resetHandlers())
