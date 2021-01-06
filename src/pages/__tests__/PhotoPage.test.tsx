@@ -1,7 +1,7 @@
 import {
   render,
   screen,
-  waitForElementToBeRemoved,
+  waitForElementToBeRemoved
 } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { albums as albumsMock, photos as photosMock } from 'mocks'
@@ -10,7 +10,7 @@ import PhotoPage from 'pages/PhotoPage'
 
 const firstAlbum = albumsMock[0]
 const firstPhoto = photosMock.filter(
-  (photo) => photo.albumId === firstAlbum.id
+  photo => photo.albumId === firstAlbum.id
 )[0]
 
 describe('comment feature / photo detail', () => {

@@ -17,8 +17,8 @@ function UserPage() {
   useEffect(() => {
     setLoading(true)
     fetchUser(parseInt(userId))
-      .then((user) => {
-        return fetchUserAlbums(parseInt(userId)).then((albums) => {
+      .then(user => {
+        return fetchUserAlbums(parseInt(userId)).then(albums => {
           setAlbums(albums)
           setUser(user)
         })
@@ -88,7 +88,7 @@ function UserPage() {
           </div>
           <div className="col-12 col-md-8">
             <div className="row" role="list">
-              {albums.map((album) => (
+              {albums.map(album => (
                 <div
                   key={album.id}
                   className="col-md-6 col-lg-4"

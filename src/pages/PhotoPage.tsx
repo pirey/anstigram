@@ -42,8 +42,8 @@ function PhotoPage() {
 
     setLoading(true)
     fetchPhoto(parseInt(photoId))
-      .then((photo) => {
-        return fetchAlbum(parseInt(photo.albumId)).then((album) => {
+      .then(photo => {
+        return fetchAlbum(parseInt(photo.albumId)).then(album => {
           setPhoto(photo)
           setAlbum(album)
         })
@@ -118,7 +118,7 @@ function PhotoPage() {
                     className="form-control rounded-pill"
                     placeholder="Add a comment..."
                     value={newComment}
-                    onChange={(e) => setNewComment(e.target.value)}
+                    onChange={e => setNewComment(e.target.value)}
                   />
                 </div>
                 <div className="col-3 d-flex justify-content-center align-items-center">

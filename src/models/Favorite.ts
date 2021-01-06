@@ -25,7 +25,7 @@ export function addPhotoToFavorites(
   photo: Photo,
   album: Album
 ): FavoritePhoto[] {
-  const existing = favorites.find((favorite) => photo.id === favorite.id)
+  const existing = favorites.find(favorite => photo.id === favorite.id)
   if (existing) {
     return favorites
   }
@@ -33,7 +33,7 @@ export function addPhotoToFavorites(
   const newFavorite = {
     ...photo,
     albumId: album.id,
-    albumTitle: album.title,
+    albumTitle: album.title
   }
 
   return favorites.concat(newFavorite)
@@ -43,7 +43,7 @@ export function removePhotoFromFavorites(
   favorites: FavoritePhoto[],
   photo: Photo
 ): FavoritePhoto[] {
-  const newFavorites = favorites.filter((favorite) => favorite.id !== photo.id)
+  const newFavorites = favorites.filter(favorite => favorite.id !== photo.id)
 
   return newFavorites
 }
@@ -52,7 +52,7 @@ export function getFavoriteByPhotoId(
   favorites: FavoritePhoto[],
   photoId: number
 ): FavoritePhoto | null {
-  const found = favorites.find((favorite) => favorite.id === photoId)
+  const found = favorites.find(favorite => favorite.id === photoId)
   return found || null
 }
 

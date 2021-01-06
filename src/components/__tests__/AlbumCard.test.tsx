@@ -16,9 +16,9 @@ describe('AlbumCard', () => {
       </BrowserRouter>
     )
 
-    expect(
-      screen.getAllByRole('link', { name: /album title/i })
-    ).toHaveLength(2)
+    expect(screen.getAllByRole('link', { name: /album title/i })).toHaveLength(
+      2
+    )
     expect(screen.getByRole('link', { name: /user name/i })).toBeInTheDocument()
   })
 })

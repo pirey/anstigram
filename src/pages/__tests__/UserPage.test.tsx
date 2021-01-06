@@ -1,14 +1,14 @@
 import {
   render,
   screen,
-  waitForElementToBeRemoved,
+  waitForElementToBeRemoved
 } from '@testing-library/react'
 import { MemoryRouter, Route, Switch } from 'react-router-dom'
 import UserPage from 'pages/UserPage'
 import { albums as albumsMock, users as usersMock } from 'mocks'
 
 const firstUser = usersMock[0]
-const userAlbums = albumsMock.filter((album) => album.userId === firstUser.id)
+const userAlbums = albumsMock.filter(album => album.userId === firstUser.id)
 
 describe('UserPage', () => {
   test('loads and displays albums', async () => {
