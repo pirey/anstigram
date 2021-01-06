@@ -1,6 +1,11 @@
 import { Photo } from 'models'
 import { photos as photosMock, albums as albumsMock } from 'mocks'
-import { addPhotoToFavorites, removePhotoFromFavorites, getFavoriteByPhotoId } from 'models'
+import {
+  addPhotoToFavorites,
+  removePhotoFromFavorites,
+  getFavoriteByPhotoId,
+  toggleFavoritePhoto
+} from 'models'
 import { FavoritePhoto } from 'models/Favorite'
 
 const firstAlbum = albumsMock[0]
@@ -15,7 +20,11 @@ describe('favorite photo manager', () => {
   describe('add photo to favorite', () => {
     test('first time add favorite photo', () => {
       const favorites: FavoritePhoto[] = []
-      const newFavorites = addPhotoToFavorites(favorites, firstAlbumPhoto, firstAlbum)
+      const newFavorites = addPhotoToFavorites(
+        favorites,
+        firstAlbumPhoto,
+        firstAlbum
+      )
 
       expect(newFavorites).toHaveLength(1)
       expect(newFavorites[0].id).toBe(firstAlbumPhoto.id)
@@ -25,14 +34,22 @@ describe('favorite photo manager', () => {
 
     test('should not be added if photo already in favorite', () => {
       const favorites = addPhotoToFavorites([], firstAlbumPhoto, firstAlbum)
-      const newFavorites = addPhotoToFavorites(favorites, firstAlbumPhoto, firstAlbum)
+      const newFavorites = addPhotoToFavorites(
+        favorites,
+        firstAlbumPhoto,
+        firstAlbum
+      )
 
       expect(favorites).toBe(newFavorites)
     })
 
     test('add another photo to favorites should add that photo', () => {
       const favorites = addPhotoToFavorites([], firstAlbumPhoto, firstAlbum)
-      const newFavorites = addPhotoToFavorites(favorites, secondAlbumPhoto, firstAlbum)
+      const newFavorites = addPhotoToFavorites(
+        favorites,
+        secondAlbumPhoto,
+        firstAlbum
+      )
 
       expect(newFavorites).toHaveLength(2)
     })
@@ -57,13 +74,39 @@ describe('favorite photo manager', () => {
   })
 
   test('get favorite photo by photo id', () => {
-      const favorites = addPhotoToFavorites([], firstAlbumPhoto, firstAlbum)
-      const favorites_ = addPhotoToFavorites(favorites, secondAlbumPhoto, firstAlbum)
+    const favorites = addPhotoToFavorites([], firstAlbumPhoto, firstAlbum)
+    const favorites_ = addPhotoToFavorites(
+      favorites,
+      secondAlbumPhoto,
+      firstAlbum
+    )
 
-      const foundPhoto = getFavoriteByPhotoId(favorites_, firstAlbumPhoto.id) as FavoritePhoto
-      expect(foundPhoto.id).toBe(firstAlbumPhoto.id)
+    const foundPhoto = getFavoriteByPhotoId(
+      favorites_,
+      firstAlbumPhoto.id
+    ) as FavoritePhoto
+    expect(foundPhoto.id).toBe(firstAlbumPhoto.id)
 
-      const notFound = getFavoriteByPhotoId(favorites_, thirdAlbumPhoto.id)
-      expect(notFound).toBeNull()
+    const notFound = getFavoriteByPhotoId(favorites_, thirdAlbumPhoto.id)
+    expect(notFound).toBeNull()
+  })
+
+  test('toggle photo to favorites', () => {
+    const favorites = toggleFavoritePhoto([], firstAlbumPhoto, firstAlbum)
+    expect(favorites).toHaveLength(1)
+
+    const favorites_ = toggleFavoritePhoto(
+      favorites,
+      firstAlbumPhoto,
+      firstAlbum
+    )
+    expect(favorites_).toHaveLength(0)
+
+    const favorites__ = toggleFavoritePhoto(
+      favorites_,
+      firstAlbumPhoto,
+      firstAlbum
+    )
+    expect(favorites__).toHaveLength(1)
   })
 })

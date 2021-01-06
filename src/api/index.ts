@@ -61,4 +61,3 @@ export async function fetchUser(userId: number) {
   )
   return await response.json()
 }
-

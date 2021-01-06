@@ -41,12 +41,14 @@ export function filterAlbumsByType(
   search: string,
   filterBy: FilterType
 ): Album[] {
+  const defaultFilterMethod = filterAlbumByTitle
+
   const filteredAlbums =
     filterBy === 'album'
       ? filterAlbumByTitle(albums, search)
       : filterBy === 'user'
       ? filterAlbumByUser(albums, users, search)
-      : filterAlbumByTitle(albums, search)
+      : defaultFilterMethod(albums, search)
 
   return filteredAlbums
 }

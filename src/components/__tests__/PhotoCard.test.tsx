@@ -14,24 +14,26 @@ describe('PhotoCard', () => {
   test('render like / favorite button', async () => {
     render(<PhotoCard photo={photo} />)
 
-    expect(screen.getByRole('button', {name: /like/i})).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: /like/i })).toBeInTheDocument()
   })
 
   test('render liked button if photo is liked', async () => {
     render(<PhotoCard photo={photo} liked={true} />)
 
-    expect(screen.getByRole('button', {name: /liked/i})).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: /liked/i })).toBeInTheDocument()
   })
 
   test('render comment button', async () => {
     render(<PhotoCard photo={photo} />)
 
-    expect(screen.getByRole('button', {name: /comment/i})).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: /comment/i })).toBeInTheDocument()
   })
 
   test('render comment count if any', async () => {
     render(<PhotoCard photo={photo} commentCount={7} />)
 
-    expect(screen.getByRole('button', {name: /comment 7/i})).toBeInTheDocument()
+    expect(
+      screen.getByRole('button', { name: /comment 7/i })
+    ).toBeInTheDocument()
   })
 })
