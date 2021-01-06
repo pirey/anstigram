@@ -22,10 +22,9 @@ function AlbumPage() {
   const [user, setUser] = useState<User | null>(null)
   const [album, setAlbum] = useState<Album | null>(null)
   const [albumPhotos, setAlbumPhotos] = useState<Photo[]>([])
-  const [selectedPhoto, setSelectedPhoto] = useState<Photo | null>(null)
   const [loading, setLoading] = useState(true)
 
-  const handleClickLike = (photo: Photo) => {
+  const handleLikeButtonClick = (photo: Photo) => {
     if (!album) {
       return
     }
@@ -66,12 +65,12 @@ function AlbumPage() {
     <>
       <header className="container-xl my-3">
         <div className="row align-items center">
-          <div className="mt-3 mt-sm-0 order-last order-sm-first col-12 col-sm-2 col-lg-1 d-flex align-items-center justify-content-start justify-content-sm-center">
+          <div className="mt-3 mt-sm-0 order-last order-sm-first col-12 col-sm-2 col-lg-1 d-flex align-items-center justify-content-start">
             <Link
               to="/"
               className="text-lg text-danger text-decoration-none font-weight-bolder"
             >
-              Go Back
+              Back
             </Link>
           </div>
           <div className="col-sm-10 col-lg-11 d-flex flex-column justify-content-center">
@@ -102,7 +101,7 @@ function AlbumPage() {
               <PhotoCard
                 photo={photo}
                 liked={isPhotoLiked(photo)}
-                onLikeButtonClick={handleClickLike}
+                onLikeButtonClick={handleLikeButtonClick}
                 className="h-100"
               />
             </div>

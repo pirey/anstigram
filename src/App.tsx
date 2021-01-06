@@ -1,11 +1,13 @@
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import MainPage from 'pages/MainPage'
 import AlbumPage from 'pages/AlbumPage'
+import PhotoPage from 'pages/PhotoPage'
 
 function App() {
   return (
     <Router>
       <Switch>
+        <Route path="/photos/:photoId" exact component={PhotoPage} />
         <Route path="/albums/:albumId" exact component={AlbumPage} />
         <Route path="/" exact component={MainPage} />
       </Switch>

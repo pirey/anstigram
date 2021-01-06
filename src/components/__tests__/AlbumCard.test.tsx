@@ -17,8 +17,8 @@ describe('AlbumCard', () => {
     )
 
     expect(
-      screen.getByRole('link', { name: /album title/i })
-    ).toBeInTheDocument()
+      screen.getAllByRole('link', { name: /album title/i })
+    ).toHaveLength(2)
     expect(screen.getByRole('link', { name: /user name/i })).toBeInTheDocument()
   })
 })

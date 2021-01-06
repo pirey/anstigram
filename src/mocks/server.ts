@@ -35,6 +35,17 @@ const server = setupServer(
     return res(ctx.delay(10), ctx.json(usersMock))
   }),
 
+  rest.get(
+    'https://jsonplaceholder.typicode.com/photos/:photoId',
+    (req, res, ctx) => {
+      const { photoId } = req.params
+      return res(
+        ctx.delay(10),
+        ctx.json(photosMock.find(photo => photo.id === parseInt(photoId)))
+      )
+    }
+  ),
+
   rest.get('https://jsonplaceholder.typicode.com/photos', (req, res, ctx) => {
     const albumId = req.url.searchParams.get('albumId')
     const photosResult = albumId

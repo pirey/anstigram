@@ -1,0 +1,11 @@
+.imageColumn,
+.commentColumn {
+  height: auto !important;
+}
+
+@media (min-width: 768px) {
+  .imageColumn,
+  .commentColumn {
+    height: 500px !important;
+  }
+}
